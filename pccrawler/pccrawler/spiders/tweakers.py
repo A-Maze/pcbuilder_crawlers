@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from pccrawler.items import (GPU, Geheugen, Moederbord, Behuizing,
-                             Processor, Voeding, Koeling, Barebones,
-                             Harde, SSD, DVD, Fan)
+from pccrawler.items import (GPU, Geheugen, Moederbord, Behuizing, Processor,
+                             Voeding, Koeling, Barebones, Harde, SSD, DVD, Fan)
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
 
@@ -63,109 +62,75 @@ class TweakersSpider(CrawlSpider):
             if "Videokaarten" in category:
                 item = GPU()
                 item['categorie'] = sel.xpath(
-                    '//*[@id="tweakbaseBreadcrumb\
-                    Category"]/a/text()').extract()
+                    '//*[@id="tweakbaseBreadcrumbCategory"]/a/text()').extract()
                 item['Merk'] = sel.xpath(
                     '//tr[contains(td[1], "Merk")]/td[2]/a/text()').extract()
                 item['Product'] = sel.xpath(
-                    '//tr[contains(td[1], "Product"\
-                        )]/td[2]/a/text()').extract()
+                    '//tr[contains(td[1], "Product")]/td[2]/a/text()').extract()
                 item['Uitvoering'] = sel.xpath(
-                    '//tr[contains(td[1], "Uitvoering\
-                        ")]/td[2]/a/text()').extract()
+                    '//tr[contains(td[1], "Uitvoering")]/td[2]/a/text()').extract()
                 item['Afbeelding'] = sel.xpath(
-                    '//tr[contains(td[1], "Afbeelding\
-                        ")]/td[2]/a/@href').extract()
+                    '//tr[contains(td[1], "Afbeelding")]/td[2]/a/@href').extract()
                 item['Videochip'] = sel.xpath(
-                    '//tr[contains(td[1], "Videochip\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Videochip")]/td[2]/text()').extract()
                 item['Chipset_generatie'] = sel.xpath(
-                    '//tr[contains(td[1], "Chipset \
-                        generatie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Chipset generatie")]/td[2]/text()').extract()
                 item['Videochipfabrikant'] = sel.xpath(
-                    '//tr[contains(td[1], "Videochip\
-                        fabrikant")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Videochipfabrikant")]/td[2]/text()').extract()
                 item['Nominale_snelheid_videochip'] = sel.xpath(
-                    '//tr[contains(td[1], "Nominale\
-                     snelheid videochip")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Nominale snelheid videochip")]/td[2]/text()').extract()
                 item['Maximale_turbo_frequentie'] = sel.xpath(
-                    '//tr[contains(td[1], "Maximale\
-                     turbo frequentie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Maximale turbo frequentie")]/td[2]/text()').extract()
                 item['Rekenkernen'] = sel.xpath(
-                    '//tr[contains(td[1], "Rekenkernen\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Rekenkernen")]/td[2]/text()').extract()
                 item['Geheugengrootte'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugengrootte\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugengrootte")]/td[2]/text()').extract()
                 item['Geheugen_Type'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugen Type\
-                     (videokaarten)")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugen Type (videokaarten)")]/td[2]/text()').extract()
                 item['Geheugen_Nominale_snelheid_videochip'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugen\
-                     Snelheid")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugen Snelheid")]/td[2]/text()').extract()
                 item['Geheugen_Busbreedte'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugen\
-                     Busbreedte")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugen Busbreedte")]/td[2]/text()').extract()
                 item['Card_Interface'] = sel.xpath(
-                    '//tr[contains(td[1], "Card Interface\
-                     (Video)")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Card Interface (Video)")]/td[2]/text()').extract()
                 item['Video_uit'] = sel.xpath(
-                    '//tr[contains(td[1], "Video uit\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Video uit")]/td[2]/text()').extract()
                 item['Hoogste_HDMI_versie'] = sel.xpath(
-                    '//tr[contains(td[1], "Hoogste\
-                     HDMI-versie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Hoogste HDMI-versie")]/td[2]/text()').extract()
                 item['Hoogste_DisplayPort_versie'] = sel.xpath(
-                    '//tr[contains(td[1], "Hoogste\
-                     DisplayPort versie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Hoogste DisplayPort versie")]/td[2]/text()').extract()
                 item['Video_Adapter'] = sel.xpath(
-                    '//tr[contains(td[1], "Video\
-                     Adapter")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Video Adapter")]/td[2]/text()').extract()
                 item['DirectX_versie'] = sel.xpath(
-                    '//tr[contains(td[1], "DirectX\
-                     versie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "DirectX versie")]/td[2]/text()').extract()
                 item['OpenGL_versie'] = sel.xpath(
-                    '//tr[contains(td[1], "OpenGL\
-                     versie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "OpenGL versie")]/td[2]/text()').extract()
                 item['Shader_model'] = sel.xpath(
-                    '//tr[contains(td[1], "Shader\
-                     model")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Shader model")]/td[2]/text()').extract()
                 item['Lengte'] = sel.xpath(
-                    '//tr[contains(td[1], "Lengte\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Lengte")]/td[2]/text()').extract()
                 item['Hoogte'] = sel.xpath(
-                    '//tr[contains(td[1], "Hoogte\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Hoogte")]/td[2]/text()').extract()
                 item['Breedte'] = sel.xpath(
-                    '//tr[contains(td[1], "Breedte\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Breedte")]/td[2]/text()').extract()
                 item['Aantal_slots'] = sel.xpath(
-                    '//tr[contains(td[1], "Aantal\
-                     slots")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Aantal slots")]/td[2]/text()').extract()
                 item['Aantal_pins'] = sel.xpath(
-                    '//tr[contains(td[1], "Aantal\
-                     pins")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Aantal pins")]/td[2]/text()').extract()
                 item['Aantal_6_pins'] = sel.xpath(
-                    '//tr[contains(td[1], "Aantal\
-                     6 pins")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Aantal 6 pins")]/td[2]/text()').extract()
                 item['Aantal_8_pins'] = sel.xpath(
-                    '//tr[contains(td[1], "Aantal\
-                     8 pins")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Aantal 8 pins")]/td[2]/text()').extract()
                 item['Stroomverbruik'] = sel.xpath(
-                    '//tr[contains(td[1], "\
-                        Stroomverbruik")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Stroomverbruik")]/td[2]/text()').extract()
                 item['Type_koeling'] = sel.xpath(
-                    '//tr[contains(td[1], "Type\
-                     koeling")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Type koeling")]/td[2]/text()').extract()
                 item['Link_Interface'] = sel.xpath(
-                    '//tr[contains(td[1], "Link\
-                     Interface")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Link Interface")]/td[2]/text()').extract()
                 item['ean'] = sel.xpath(
-                    '//tr[contains(td[1], "EAN"\
-                        )]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "EAN")]/td[2]/text()').extract()
                 item['sku'] = sel.xpath(
-                    '//tr[contains(td[1], "SKU\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "SKU")]/td[2]/text()').extract()
                 yield item
                 print "Videokaart"
 
@@ -178,49 +143,37 @@ class TweakersSpider(CrawlSpider):
                 # worden aangepast naar hoe het op tweakers staat voor dit
                 # item.
                 item['categorie'] = sel.xpath(
-                    '//*[@id="tweakbaseBreadcrumb\
-                    Category"]/a/text()').extract()
+                    '//*[@id="tweakbaseBreadcrumbCategory"]/a/text()').extract()
                 item['Merk'] = sel.xpath(
                     '//tr[contains(td[1], "Merk")]/td[2]/a/text()').extract()
                 item['Serie'] = sel.xpath(
                     '//tr[contains(td[1], "Serie")]/td[2]/a/text()').extract()
                 item['Uitvoering'] = sel.xpath(
-                    '//tr[contains(td[1], "Uitvoerin\
-                        g")]/td[2]/a/text()').extract()
+                    '//tr[contains(td[1], "Uitvoering")]/td[2]/a/text()').extract()
                 item['Afbeelding'] = sel.xpath(
-                    '//tr[contains(td[1], "Afbeeldin\
-                        g")]/td[2]/a/@href').extract()
+                    '//tr[contains(td[1], "Afbeelding")]/td[2]/a/@href').extract()
                 item['Geheugengrootte'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugeng\
-                        rootte")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugengrootte")]/td[2]/text()').extract()
                 item['Aantal'] = sel.xpath(
                     '//tr[contains(td[1], "Aantal")]/td[2]/text()').extract()
                 item['Modulegrootte'] = sel.xpath(
-                    '//tr[contains(td[1], "Modulegro\
-                        otte")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Modulegrootte")]/td[2]/text()').extract()
                 item['Prijs_per_GB'] = sel.xpath(
-                    '//tr[contains(td[1], "Prijs per\
-                     GB (geheugen)")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Prijs per GB (geheugen)")]/td[2]/text()').extract()
                 item['Geheugentype'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugenty\
-                        pe")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugentype")]/td[2]/text()').extract()
                 item['Geheugen_Specificatie'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugen S\
-                        pecificatie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugen Specificatie")]/td[2]/text()').extract()
                 item['Low_Voltage_DDR'] = sel.xpath(
-                    '//tr[contains(td[1], "Low Voltag\
-                        e DDR")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Low Voltage DDR")]/td[2]/text()').extract()
                 item['Geheugen_CAS_Latency'] = sel.xpath(
-                    '//tr[contains(td[1], "Geheugen C\
-                        AS Latency")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Geheugen CAS Latency")]/td[2]/text()').extract()
                 item['Spanning'] = sel.xpath(
                     '//tr[contains(td[1], "Spanning")]/td[2]/text()').extract()
                 item['Fabrieksgarantie'] = sel.xpath(
-                    '//tr[contains(td[1], "Fabrieksga\
-                        rantie")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Fabrieksgarantie")]/td[2]/text()').extract()
                 item['Bijzonderheden'] = sel.xpath(
-                    '//tr[contains(td[1], "Bijzonderh\
-                        eden")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Bijzonderheden")]/td[2]/text()').extract()
                 item['ean'] = sel.xpath(
                     '//tr[contains(td[1], "EAN")]/td[2]/text()').extract()
                 item['sku'] = sel.xpath(
@@ -231,38 +184,27 @@ class TweakersSpider(CrawlSpider):
             elif "Moederborden" in category:
                 item = Moederbord()
                 item['categorie'] = sel.xpath(
-                    '//*[@id="tweakbaseBreadcrumbCatego\
-                    ry"]/a/text()').extract()
+                    '//*[@id="tweakbaseBreadcrumbCategory"]/a/text()').extract()
                 item['Merk'] = sel.xpath(
-                    '//tr[contains(td[1], "Merk")]/td[\
-                    2]/a/text()').extract()
+                    '//tr[contains(td[1], "Merk")]/td[2]/a/text()').extract()
                 item['Product'] = sel.xpath(
-                    '//tr[contains(td[1], "Product")]/t\
-                    d[2]/a/text()').extract()
+                    '//tr[contains(td[1], "Product")]/td[2]/a/text()').extract()
                 item['Uitvoering'] = sel.xpath(
-                    '//tr[contains(td[1], "Uitvoering")\
-                    ]/td[2]/a/text()').extract()
+                    '//tr[contains(td[1], "Uitvoering")]/td[2]/a/text()').extract()
                 item['Afbeelding'] = sel.xpath(
-                    '//tr[contains(td[1], "Afbeelding")\
-                    ]/td[2]/a/text()').extract()
+                    '//tr[contains(td[1], "Afbeelding")]/td[2]/a/text()').extract()
                 item['Socket'] = sel.xpath(
-                    '//tr[contains(td[1], "Socket")]/td\
-                    2]/text()').extract()
+                    '//tr[contains(td[1], "Socket")]/td[2]/text()').extract()
                 item['Aantal_socket'] = sel.xpath(
-                    '//tr[contains(td[1], "Aantal_socket\
-                        ")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Aantal_socket")]/td[2]/text()').extract()
                 item['Form_Factor'] = sel.xpath(
-                    '//tr[contains(td[1], "Form Factor")]\
-                    /td[2]/text()').extract()
+                    '//tr[contains(td[1], "Form Factor")]/td[2]/text()').extract()
                 item['BIOS_of_UEFI'] = sel.xpath(
-                    '//tr[contains(td[1], "BIOS of UEFI")]\
-                    /td[2]/text()').extract()
+                    '//tr[contains(td[1], "BIOS of UEFI")]/td[2]/text()').extract()
                 item['Dual_of_Single_BIOS_UEFI'] = sel.xpath(
-                    '//tr[contains(td[1], "Dual of Single \
-                        BIOS/UEFI")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Dual of Single BIOS/UEFI")]/td[2]/text()').extract()
                 item['Moederbordchipset'] = sel.xpath(
-                    '//tr[contains(td[1], "Moederbordchipse\
-                        t")]/td[2]/text()').extract()
+                    '//tr[contains(td[1], "Moederbordchipset")]/td[2]/text()').extract()
                 item['Geheugentype'] = sel.xpath(
                     '//tr[contains(td[1], "Geheugentype")]/td[2]/text()').extract()
                 item['Maximum_geheugengrootte'] = sel.xpath(
