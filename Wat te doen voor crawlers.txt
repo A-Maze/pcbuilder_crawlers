@@ -1,2 +1,0 @@
-Crawl alleen de uiterste links van het menu.
-Filter eventuele dubbele resultaten eruit.
