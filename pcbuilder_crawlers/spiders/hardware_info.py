@@ -18,26 +18,27 @@ allowed_urls = (
 
 class HardwareInfoSpider(CrawlSpider):
     name = "hardwareinfo"
-    allowed_domains = "http://nl.hardware.info"
-    CONCURRENT_ITEMS = 1000
-    CONCURRENT_REQUESTS = 100
-    CONCURRENT_REQUESTS_PER_DOMAIN = 1000
+    allowed_domains = ["http://nl.hardware.info",
+                       "nl.hardware.info"]
     start_urls = (root_url.format(allowed_url) for allowed_url in allowed_urls)
 
     rules = (
         Rule(LinkExtractor(restrict_xpaths=("//table[@id='productresulttable']"
-                                            "/tbody"),
+                                            ),
                            allow=("specificaties",)),
-             follow=True, callback="parse_item"),
+             follow=True, callback='parse_item'),
     )
+    print("test")
 
     def parse_item(self, response):
         key_xpath = "tr/td[@position=1]"
         value_xpath = "tr/td[@position=2]"
-
         for sel in response.xpath("//div[@id='columnleft']"):
             product = {}
+            self.logging.info(sel)
+
             for row in sel.xpath("table/tbody/"):
+                self.logging.info(row)
                 product[row.xpath(key_xpath).extract()] = row.\
                     xpath(value_xpath).extract()
             yield product

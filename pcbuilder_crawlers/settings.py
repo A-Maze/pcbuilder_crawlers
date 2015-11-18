@@ -13,7 +13,7 @@ BOT_NAME = 'pcbuilder_crawlers'
 
 SPIDER_MODULES = ['pcbuilder_crawlers.spiders']
 NEWSPIDER_MODULE = 'pcbuilder_crawlers.spiders'
-
+LOG_LEVEL = 'INFO'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pcbuilder_crawlers (+http://www.yourdomain.com)'
