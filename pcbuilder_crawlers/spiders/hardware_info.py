@@ -22,6 +22,8 @@ class HardwareInfoSpider(CrawlSpider):
                        "nl.hardware.info"]
     start_urls = (root_url.format(allowed_url) for allowed_url in allowed_urls)
 
+    # Extract product specification links, follow them and extract the result
+    # to the parse method
     rules = (
         Rule(LinkExtractor(restrict_xpaths=("//table[@id='productresulttable']"
                                             ),
@@ -30,13 +32,20 @@ class HardwareInfoSpider(CrawlSpider):
     )
 
     def parse_item(self, response):
+        # The key is always the value of the second td  in the specifications
+        # table. The value belonging to the key is the third td.
+
         key_xpath = "td[position()=2]/text()"
         value_xpath = "td[position()=3]/text()"
+
+        # Get the specifications div
         for sel in response.xpath(
                 "//*[@id='contentWithoutSidebar']/div/div[2]/div"):
             product = {}
 
+            # Select the tables and loop trough the rows
             for row in sel.xpath("table/tbody/tr"):
+                # Lookup the key and value and append them to the product
                 product[''.join(row.xpath(key_xpath).extract())] = \
                     ''.join(row.xpath(value_xpath).extract())
             yield product
