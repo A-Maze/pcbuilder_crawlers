@@ -1,5 +1,6 @@
 from spiders.hardware_info import HardwareInfoSpider
 from scrapy.settings import Settings
+from pcbuilder_crawlers.templates.category import translate_category
 # -*- coding: utf-8 -*-
 
 # Define your item pipelines here
@@ -13,10 +14,12 @@ config = Settings()
 class PcbuilderCrawlersPipeline(object):
     def __init__(self):
         self.root_url = config.get("API_URL")
-        self.api_url = ("{root_url}category/{category_name}/product"
-                        "/{product_id}" .format(root_url=self.root_url))
+        # self.api_url = ("{root_url}category/{category_name}/product"
+        #                 "/{product_id}" .format(root_url=self.root_url))
 
     def process_item(self, item, spider):
+        print(translate_category(item['category']))
+
         if spider is HardwareInfoSpider:
             self.post_item(item)
         else:
@@ -24,10 +27,7 @@ class PcbuilderCrawlersPipeline(object):
         return item
 
     def post_item(self, item):
-        category =
         return item
 
     def post_price(self, item):
         return item
-
-    def

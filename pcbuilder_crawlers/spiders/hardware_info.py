@@ -81,5 +81,4 @@ class HardwareInfoSpider(CrawlSpider):
 
                 product[key] = value
 
-        print(product["category"])
         yield product
