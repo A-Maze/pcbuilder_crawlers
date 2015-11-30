@@ -10,11 +10,9 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'pcbuilder_crawlers'
-
 SPIDER_MODULES = ['pcbuilder_crawlers.spiders']
 NEWSPIDER_MODULE = 'pcbuilder_crawlers.spiders'
 LOG_LEVEL = 'INFO'
-
 API_URL = "95.85.12.99/"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -64,7 +62,7 @@ API_URL = "95.85.12.99/"
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'pcbuilder_crawlers.pipelines.PcbuilderCrawlersPipeline': 300,
+   'pcbuilder_crawlers.pipelines.Pipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
