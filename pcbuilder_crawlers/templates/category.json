@@ -3,9 +3,9 @@
     "CPU" : ["CPU", "processors"],
     "case" : ["case", "behuizing", "Behuizingen"],
     "cooler" : ["cooler", "CPU-koelers", "Casefans"],
-    "dvd" : ["dvd", "Optische drives"],
+    "optical_drive" : ["dvd", "Optische drives"],
     "video_card" : ["video_card", "grafische kaarten", "Video kaarten"],
-    "hard_drive" : ["hard_drive", "Harddisks/SSD's"],
+    "harddrive" : ["harddrive", "Harddisks/SSD's"],
     "memory" : ["memory", "RAM", "Geheugenmodules"],
     "motherboard" : ["motherboard", "Moederborden"]
 }
