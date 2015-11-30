@@ -3,8 +3,8 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
 
-root_url = "productlist.php?categoryID={}"
-allowed = [
+root_url = "https://www.afuture.nl/productlist.php?categoryID={}"
+allowed_urls = [
     "237",  # cases
     "911",  # memory
     "164",  # motherboard
@@ -20,22 +20,17 @@ html = HTMLParser.HTMLParser()
 
 
 class AlternateSpider(CrawlSpider):
-    name = "alternate"
+    name = "afuture"
     allowed_domains = ["https://www.afuture.nl",
                        "afuture.nl"]
-    start_urls = ("https://www.afuture.nl/",)
-    allowed_urls = (root_url.format(allowed_url) for allowed_url in allowed)
-    print allowed_urls
+    start_urls = (root_url.format(allowed_url) for allowed_url in allowed_urls)
 
     # Extract product specification links, follow them and extract the result
     # to the parse method
     rules = (
-        # third list position is components link list
-        Rule(LinkExtractor(restrict_xpaths="//*[@id='mainnav']/li[3]",
-             allow=allowed_urls), follow=True, callback="get_category"),
-
         # 21 is the id for the next page link.
-        Rule(LinkExtractor(restrict_xpaths="//*[@id='21']"), follow=True),
+        Rule(LinkExtractor(restrict_xpaths="//*[@id='21']"), follow=True,
+             callback="get_category"),
         Rule(LinkExtractor(
             restrict_xpaths="//a[@class='product-overzicht-item-fabrikant']"),
             follow=True, callback="parse_item")
@@ -48,23 +43,21 @@ class AlternateSpider(CrawlSpider):
         value_xpath = "td/text()"
 
         product = {}
-        product["category"] = self.category
-        product["price"] = response.xpath(
-            "//*[@id='product-detail-prijs-incl']/text()").extract()
+        product["category"] = html.unescape(self.category)
+        product["price"] = html.unescape(response.xpath(
+            "//*[@id='product-detail-prijs-incl']/text()").extract())
 
-        for table in response.xpath("//div[@id='product-detail-informatie']"):
-
-            for row in table.xpath("table/tbody/tr"):
-
+        for table in response.xpath("//table[@id='product-detail-informatie']"):
+            for row in table.xpath("tr"):
                 key = html.unescape(''.join(row.xpath(key_xpath).extract()))
                 value = html.unescape(''.join(row.xpath(value_xpath)
                                               .extract()).strip())
 
                 product[key] = value
 
-        print product["category"]
         yield product
 
     def get_category(self, response):
         self.category = response.xpath("//*[@id='content']/h1/text()")\
             .extract()
+        print self.category
