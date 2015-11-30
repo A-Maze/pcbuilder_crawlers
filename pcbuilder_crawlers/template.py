@@ -7,7 +7,7 @@ class TemplateInterface(object):
             return template
 
     def translate_category(self, name):
-        with open('/home/rik/Project/A-Pc/pcbuilder_crawlers/pcbuilder_crawlers/templates/category.json') as data:
+        with open('templates/category.json') as data:
             categories = json.load(data)
         for category_names in categories:
             categoryArray = [i.encode('UTF-8') if isinstance(i, basestring)
