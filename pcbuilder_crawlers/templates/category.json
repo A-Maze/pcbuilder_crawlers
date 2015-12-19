@@ -3,7 +3,7 @@
     "CPU" : ["CPU", "processors"],
     "case" : ["case", "behuizing", "Behuizingen"],
     "cooler" : ["cooler", "CPU-koelers", "Casefans"],
-    "optical_drive" : ["dvd", "Optische drives"],
+    "dvd" : ["dvd", "Optische drives"],
     "video_card" : ["video_card", "grafische kaarten", "Video kaarten"],
     "harddrive" : ["harddrive", "Harddisks/SSD's"],
     "memory" : ["memory", "RAM", "Geheugenmodules"],

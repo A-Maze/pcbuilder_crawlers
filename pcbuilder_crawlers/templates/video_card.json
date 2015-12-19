@@ -6,21 +6,7 @@
 	"image": [],
 	"ean": ["EAN code"],
 	"sku": [],
-	"SKU": [],
 	"link": [],
 	"brand": ["Merk"],
-	"execution": [],
-	"memory_specification": [],
-	"serie": [],
-	"product": [],
-	"memory_size": [],
-	"number": [],
-	"module_size": [],
-	"Price_per_gb": [],
-	"memory_type": [],
-	"low_voltage_ddr": [],
-	"memory_cas_latency": [],
-	"tension": [],
-	"warranty": [],
-	"particular": []
+    "card_interface": ["Interface"]
 }
