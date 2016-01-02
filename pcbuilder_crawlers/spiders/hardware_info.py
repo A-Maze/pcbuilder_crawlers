@@ -5,16 +5,16 @@ from scrapy.spiders import CrawlSpider, Rule
 
 root_url = "http://nl.hardware.info/productgroep/{}/producten"
 allowed_urls = (
-    "7/behuizingen",
-    "20/geheugenmodules",
-    "1/moederborden",
+    # "7/behuizingen",
+    # "20/geheugenmodules",
+    # "1/moederborden",
     "3/processors",
-    "21/voedingen",
-    "5/videokaarten",
-    "23/casefans",
-    "19/cpu-koelers",
-    "4/harddisksssds",
-    "2/optischedrives"
+    # "21/voedingen",
+    # "5/videokaarten",
+    # "23/casefans",
+    # "19/cpu-koelers",
+    # "4/harddisksssds"
+    # "2/optischedrives"
 )
 
 html = HTMLParser.HTMLParser()
