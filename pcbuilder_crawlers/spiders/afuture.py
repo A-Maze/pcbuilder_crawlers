@@ -45,9 +45,10 @@ class AlternateSpider(CrawlSpider):
         product = {}
         product["category"] = html.unescape(self.category)
         product["price"] = html.unescape(response.xpath(
-            "//*[@id='product-detail-prijs-incl']/text()").extract())
+            "//*[@id='product-detail-prijs-incl']/text()").extract()[0].split()[1])  # noqa
+        product["webshop"] = 'afuture'
 
-        for table in response.xpath("//table[@id='product-detail-informatie']"):
+        for table in response.xpath("//table[@id='product-detail-informatie']"):  # noqa
             for row in table.xpath("tr"):
                 key = html.unescape(''.join(row.xpath(key_xpath).extract()))
                 value = html.unescape(''.join(row.xpath(value_xpath)
@@ -59,5 +60,5 @@ class AlternateSpider(CrawlSpider):
 
     def get_category(self, response):
         self.category = response.xpath("//*[@id='content']/h1/text()")\
-            .extract()
+            .extract()[0]
         print self.category

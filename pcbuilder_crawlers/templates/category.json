@@ -1,11 +1,11 @@
 {
     "power_supply": ["power_supply", "Voedingen"],
-    "cpu" : ["cpu","CPU", "processors", "Processors"],
-    "case" : ["case", "behuizing", "Behuizingen"],
-    "cooler" : ["cooler", "CPU-koelers", "Casefans"],
-    "optical_drive" : ["optical_drive", "Optische drives"],
-    "video_card" : ["video_card", "grafische kaarten", "Video kaarten", "Videokaarten"],
-    "hard_drive" : ["hard_drive","harddrive", "Harddisks/SSD's"],
-    "memory" : ["memory", "RAM", "Geheugenmodules"],
-    "motherboard" : ["motherboard", "Moederborden"]
+    "cpu" : ["cpu","CPU", "processors", "Processors", "processors "],
+    "case" : ["case", "behuizing", "Behuizingen", "computer cases "],
+    "cooler" : ["cooler", "CPU-koelers", "Casefans", "computer cooling components "],
+    "optical_drive" : ["optical_drive", "Optische drives", "optical disc drives", "optical disc drives "],
+    "video_card" : ["video_card", "grafische kaarten", "Video kaarten", "Videokaarten", "graphics cards ", "graphics cards"],
+    "hard_drive" : ["hard_drive","harddrive", "Harddisks/SSD's", "internal hard drives ", "solid state drives "],
+    "memory" : ["memory", "RAM", "Geheugenmodules", "memory modules "],
+    "motherboard" : ["motherboard", "Moederborden", "motherboards", "motherboards "]
 }
