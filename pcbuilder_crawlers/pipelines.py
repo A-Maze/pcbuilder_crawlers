@@ -1,27 +1,43 @@
-from spiders.hardware_info import HardwareInfoSpider
 from scrapy.settings import Settings
 from template import TemplateInterface
-
+import urllib2
+import json
 config = Settings()
 
 
 class Pipeline(object):
-    def __init__(self):
-        self.root_url = config.get("API_URL")
-        # self.api_url = ("{root_url}category/{category_name}/product"
-        #                 "/{product_id}" .format(root_url=self.root_url))
-
     def process_item(self, item, spider):
+
         template = TemplateInterface()
         category = template.translate_category(item['category'])
-        if spider is HardwareInfoSpider:
-            self.post_item(item)
+        if spider.name == 'hardwareinfo':
+            temp = template.get_template(category)
+            item = template.translate_item(temp, item)
+            json_item = json.dumps(item)
+            self.post_item(json_item, category)
         else:
-            self.post_price(item)
-        return item
+            temp = template.get_template('record')
+            item = template.translate_item(temp, item)
+            json_item = json.dumps(item)
+            self.post_price(json_item, category)
 
-    def post_item(self, item):
-        return item
+    def post_item(self, item, category):
+        url = 'http://localhost:6543/category/{}/product/'.format(category)
+        response = urllib2.Request(url, item)
+        response.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(response)
+        print resp
+        return {
+            "message": "item posted"
+        }
 
-    def post_price(self, item):
-        return item
+    def post_price(self, item, category):
+        url = 'http://localhost:6543/category/{}/record/'.format(category)
+        print url
+        response = urllib2.Request(url, item)
+        response.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(response)
+        print resp
+        return {
+            "message": "price posted"
+        }
