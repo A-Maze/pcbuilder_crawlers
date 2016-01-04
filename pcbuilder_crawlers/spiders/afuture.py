@@ -11,7 +11,7 @@ allowed_urls = [
     "989",  # CPU
     "170",  # GPU
     "921",  # fans
-    "219",  # HDD
+    "219"  # HDD
     "1563",  # SSD
     "214"  # optical drive
 ]
@@ -44,8 +44,8 @@ class AlternateSpider(CrawlSpider):
 
         product = {}
         product["category"] = html.unescape(self.category)
-        product["price"] = html.unescape(response.xpath(
-            "//*[@id='product-detail-prijs-incl']/text()").extract()[0].split()[1])  # noqa
+        product["price"] = html.unescape("".join(response.xpath(
+            "//*[@id='product-detail-prijs-incl']/text()").extract()[0]).split()[1])  # noqa
         product["webshop"] = 'afuture'
 
         for table in response.xpath("//table[@id='product-detail-informatie']"):  # noqa
@@ -59,6 +59,5 @@ class AlternateSpider(CrawlSpider):
         yield product
 
     def get_category(self, response):
-        self.category = response.xpath("//*[@id='content']/h1/text()")\
-            .extract()[0]
+        self.category = "".join(response.xpath("//*[@id='content']/h1/text()").extract())  # noqa
         print self.category
