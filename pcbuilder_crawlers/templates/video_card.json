@@ -8,5 +8,6 @@
 	"sku": [],
 	"link": [],
 	"brand": ["Merk"],
-    "card_interface": ["Interface"]
+    "card_interface": ["Interface"],
+    "form_factor": ["Formaat"]
 }
