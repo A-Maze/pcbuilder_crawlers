@@ -8,7 +8,8 @@ config = Settings()
 class Pipeline(object):
     def __init__(self):
         self.root_url = config.get("API_URL")
-        # self.api_url = ("{root_url}category/{category_name}/product"
+        self.redis_port = config.get("REDIS_PORT")
+        # self.api_url = ("{root_url}/category/{category_name}/product"
         #                 "/{product_id}" .format(root_url=self.root_url))
 
     def process_item(self, item, spider):
@@ -25,3 +26,7 @@ class Pipeline(object):
 
     def post_price(self, item):
         return item
+
+    def close_spider(self, spider):
+        r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
+        r.delete('categories')  # invalidate cache after mutation

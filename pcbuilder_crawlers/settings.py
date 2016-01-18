@@ -13,7 +13,8 @@ BOT_NAME = 'pcbuilder_crawlers'
 SPIDER_MODULES = ['pcbuilder_crawlers.spiders']
 NEWSPIDER_MODULE = 'pcbuilder_crawlers.spiders'
 LOG_LEVEL = 'INFO'
-API_URL = "95.85.12.99/"
+API_URL = "95.85.12.99"
+REDIS_PORT = "6397"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pcbuilder_crawlers (+http://www.yourdomain.com)'
