@@ -37,8 +37,11 @@ class ParadigitSpider(CrawlSpider):
         )
 
     def parse_item(self, response):
-        manufacturer_number = "//div[@class='itemdetail-specificationstab-mpncontainer']/{}"
-        product_number = "//div[@class='itemdetail-specificationstab-productnumbercontainer']/{}"
+        manufacturer_number = (
+            "//div[@class='itemdetail-specificationstab-mpncontainer']/{}")
+        product_number = (
+            "//div[@class='itemdetail-specificationstab-"
+            "productnumbercontainer']/{}")
         key_xpath = "div[@position=1]/span/text()"
         value_xpath = "div[@position=2]/span/text()"
 
@@ -50,14 +53,10 @@ class ParadigitSpider(CrawlSpider):
             "//div[@class='breadcrumb']/div[@position=2]/a/text()").extract())
 
         for row in rows:
-            print row.format(key_xpath)
             key = html.unescape(''.join(
                 response.xpath(row.format(key_xpath)).extract()))
             value = html.unescape(''.join(
                 response.xpath(row.format(value_xpath))
                 .extract()).strip())
-            print key
-            print value
             product[key] = value
-            print product
         yield product
