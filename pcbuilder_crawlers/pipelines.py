@@ -1,3 +1,4 @@
+import redis
 from spiders.hardware_info import HardwareInfoSpider
 from scrapy.settings import Settings
 from template import TemplateInterface
@@ -28,5 +29,8 @@ class Pipeline(object):
         return item
 
     def close_spider(self, spider):
+        """ invalidate cache after mutation"""
         r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
-        r.delete('categories')  # invalidate cache after mutation
+        category_keys = r.keys('categor*')  # both category and categories
+        for key in category_keys:
+            r.delete(key)
