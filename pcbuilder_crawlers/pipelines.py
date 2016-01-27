@@ -6,6 +6,33 @@ config = Settings()
 
 
 class Pipeline(object):
+    def __init__(self):
+        case = []
+        cooler = []
+        cpu = []
+        hard_drive = []
+        memory = []
+        motherboard = []
+        optical_drive = []
+        power_supply = []
+        video_card = []
+        self.items = [case, cooler, cpu, hard_drive, memory,
+                      motherboard, optical_drive, power_supply, video_card]
+        self.category_names = ['case', 'cooler', 'cpu', 'hard_drive', 'memory',
+                               'motherboard', 'optical_drive', 'power_supply',
+                               'video_card']
+        self.category_list_mapping = {
+            'case': 0,
+            'cooler': 1,
+            'cpu': 2,
+            'hard_drive': 3,
+            'memory': 4,
+            'motherboard': 5,
+            'optical_drive': 6,
+            'power_supply': 7,
+            'video_card': 8
+        }
+
     def process_item(self, item, spider):
 
         template = TemplateInterface()
@@ -14,12 +41,12 @@ class Pipeline(object):
             temp = template.get_template(category)
             item = template.translate_item(temp, item)
             json_item = json.dumps(item)
-            self.post_item(json_item, category)
+            self.add(json_item, category)
         else:
             temp = template.get_template('record')
             item = template.translate_item(temp, item)
             json_item = json.dumps(item)
-            self.post_price(json_item, category)
+            self.add_item_to_list(json_item, category)
 
     def post_item(self, item, category):
         url = 'http://localhost:6543/category/{}/product/'.format(category)
@@ -31,13 +58,26 @@ class Pipeline(object):
             "message": "item posted"
         }
 
-    def post_price(self, item, category):
+    def post_price_list(self, item_list, category):
         url = 'http://localhost:6543/category/{}/record/'.format(category)
-        print url
-        response = urllib2.Request(url, item)
+        # json_item_list = json.dumps([dict(item=item) for item in item_list])
+        json_item = {}
+        json_item['items'] = item_list
+        response = urllib2.Request(url, json.dumps(json_item))
         response.add_header('Content-Type', 'application/json')
         resp = urllib2.urlopen(response)
         print resp
         return {
             "message": "price posted"
         }
+
+    def add_item_to_list(self, item, category):
+        """ adding the items to a list. This is done so we dont have to
+        send a request to the server for every item. But you can send one for
+        every category. this reduces the server load"""
+        self.items[self.category_list_mapping[category]].append(item)
+        return
+
+    def close_spider(self, spider):
+        for i in range(0, len(self.items)):
+            self.post_price_list(self.items[i], self.category_names[i])
