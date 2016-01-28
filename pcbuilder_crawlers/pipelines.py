@@ -83,11 +83,11 @@ class Pipeline(object):
         return
 
     def close_spider(self, spider):
-        """ invalidate cache after mutation"""
+        for i in range(0, len(self.items)):
+            self.post_price_list(self.items[i], self.category_names[i])
+
+        # invalidate cache after mutation
         r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
         category_keys = r.keys('categor*')  # both category and categories
         for key in category_keys:
             r.delete(key)
-
-        for i in range(0, len(self.items)):
-            self.post_price_list(self.items[i], self.category_names[i])
