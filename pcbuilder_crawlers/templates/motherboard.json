@@ -1,0 +1,14 @@
+{
+    "name": ["Productnaam"],
+	"subname": [],
+	"info": [],
+	"stock": [],
+	"image": [],
+	"ean": ["EAN code"],
+	"sku": [],
+	"link": [],
+	"brand": ["Merk"],
+    "socket" : ["CPU socket"],
+    "memory_type": ["Type geheugen"],
+    "form_factor" : ["Formaat"]
+}
