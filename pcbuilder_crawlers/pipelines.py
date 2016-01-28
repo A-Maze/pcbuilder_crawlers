@@ -1,3 +1,4 @@
+import redis
 from scrapy.settings import Settings
 from template import TemplateInterface
 import urllib2
@@ -7,6 +8,9 @@ config = Settings()
 
 class Pipeline(object):
     def __init__(self):
+        self.root_url = config.get("API_URL")
+        self.redis_port = config.get("REDIS_PORT")
+
         case = []
         cooler = []
         cpu = []
@@ -81,3 +85,9 @@ class Pipeline(object):
     def close_spider(self, spider):
         for i in range(0, len(self.items)):
             self.post_price_list(self.items[i], self.category_names[i])
+
+        # invalidate cache after mutation
+        r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
+        category_keys = r.keys('categor*')  # both category and categories
+        for key in category_keys:
+            r.delete(key)
