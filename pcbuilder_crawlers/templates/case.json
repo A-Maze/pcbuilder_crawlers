@@ -6,5 +6,6 @@
 	"ean": ["EAN code"],
 	"sku": [],
 	"link": [],
-	"brand": ["Merk"]
+	"brand": ["Merk"],
+	"form_factor": ["Moederbord formaat"]
 }
