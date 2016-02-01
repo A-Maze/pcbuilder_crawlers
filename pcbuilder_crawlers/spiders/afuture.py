@@ -19,7 +19,7 @@ allowed_urls = [
 html = HTMLParser.HTMLParser()
 
 
-class AlternateSpider(CrawlSpider):
+class AfutureSpider(CrawlSpider):
     name = "afuture"
     allowed_domains = ["https://www.afuture.nl",
                        "afuture.nl"]
@@ -59,5 +59,5 @@ class AlternateSpider(CrawlSpider):
         yield product
 
     def get_category(self, response):
-        self.category = "".join(response.xpath("//*[@id='content']/h1/text()").extract())  # noqa
+        self.category = "".join(response.xpath("//*[@id='content']/h1/text()").extract()).strip()  # noqa
         print self.category
