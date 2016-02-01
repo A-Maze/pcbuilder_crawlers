@@ -8,9 +8,9 @@ config = Settings()
 
 class Pipeline(object):
     def __init__(self):
-        self.root_url = config.get("API_URL")
-        self.redis_port = config.get("REDIS_PORT")
-
+        self.root_url = "localhost"
+        self.redis_port = "6379"
+        self.api_port = "6543"
         case = []
         cooler = []
         cpu = []
@@ -38,41 +38,23 @@ class Pipeline(object):
         }
 
     def process_item(self, item, spider):
-
         template = TemplateInterface()
         category = template.translate_category(item['category'])
         if spider.name == 'hardwareinfo':
             temp = template.get_template(category)
-            item = template.translate_item(temp, item)
-            json_item = json.dumps(item)
-            self.add(json_item, category)
         else:
             temp = template.get_template('record')
-            item = template.translate_item(temp, item)
-            json_item = json.dumps(item)
-            self.add_item_to_list(json_item, category)
+        item = template.translate_item(temp, item)
+        json_item = json.dumps(item)
+        self.add_item_to_list(json_item, category)
 
-    def post_item(self, item, category):
-        url = 'http://localhost:6543/category/{}/product/'.format(category)
-        response = urllib2.Request(url, item)
-        response.add_header('Content-Type', 'application/json')
-        resp = urllib2.urlopen(response)
-        print resp
-        return {
-            "message": "item posted"
-        }
-
-    def post_price_list(self, item_list, category):
-        url = 'http://localhost:6543/category/{}/record/'.format(category)
-        # json_item_list = json.dumps([dict(item=item) for item in item_list])
+    def post_items(self, url, item_list):
         json_item = {}
         json_item['items'] = item_list
         response = urllib2.Request(url, json.dumps(json_item))
         response.add_header('Content-Type', 'application/json')
-        resp = urllib2.urlopen(response)
-        print resp
         return {
-            "message": "price posted"
+            "message": "item posted"
         }
 
     def add_item_to_list(self, item, category):
@@ -83,8 +65,16 @@ class Pipeline(object):
         return
 
     def close_spider(self, spider):
+        if spider.name == 'hardwareinfo':
+            item_type = 'product'
+        else:
+            item_type = 'record'
         for i in range(0, len(self.items)):
-            self.post_price_list(self.items[i], self.category_names[i])
+            url = 'http://{}:{}/category/{}/{}/'.format(self.root_url,
+                                                        self.api_port,
+                                                        self.category_names[i],
+                                                        item_type)
+            self.post_items(url, self.items[i])
 
         # invalidate cache after mutation
         r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
