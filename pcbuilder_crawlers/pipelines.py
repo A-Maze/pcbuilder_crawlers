@@ -8,9 +8,9 @@ config = Settings()
 
 class Pipeline(object):
     def __init__(self):
-        self.root_url = config.get("API_URL")
-        self.redis_port = config.get("REDIS_PORT")
-        self.api_port = config.get("API_PORT")
+        self.root_url = "localhost"
+        self.redis_port = "6379"
+        self.api_port = "6543"
         case = []
         cooler = []
         cpu = []
