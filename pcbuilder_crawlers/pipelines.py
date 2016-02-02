@@ -53,6 +53,8 @@ class Pipeline(object):
         json_item['items'] = item_list
         response = urllib2.Request(url, json.dumps(json_item))
         response.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(response)
+        print resp
         return {
             "message": "item posted"
         }
