@@ -1,40 +1,63 @@
 import HTMLParser
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
+import scrapy
+from scrapy.spiders import Spider
 
 
 root_url = "https://www.afuture.nl/productlist.php?categoryID={}"
-allowed_urls = [
-    "237",  # cases
-    "911",  # memory
-    "164",  # motherboard
-    "989",  # CPU
-    "170",  # GPU
-    "921",  # fans
-    "219"  # HDD
-    "1563",  # SSD
-    "214"  # optical drive
-]
+allowed_urls = {
+    "237": "case",
+    "911": "memory",
+    "164": "motherboard",
+    "989": "cpu",
+    "170": "video_card",
+    "921": "cooler",
+    "219": "hard_drive",
+    "1563": "hard_drive",
+    "214": "optical_drive"
+}
 
 html = HTMLParser.HTMLParser()
 
 
-class AlternateSpider(CrawlSpider):
+class AfutureSpider(Spider):
     name = "afuture"
     allowed_domains = ["https://www.afuture.nl",
                        "afuture.nl"]
-    start_urls = (root_url.format(allowed_url) for allowed_url in allowed_urls)
+    start_urls = (root_url.format(allowed_url) for allowed_url, value in
+                  allowed_urls.items())
 
-    # Extract product specification links, follow them and extract the result
-    # to the parse method
-    rules = (
-        # 21 is the id for the next page link.
-        Rule(LinkExtractor(restrict_xpaths="//*[@id='21']"), follow=True,
-             callback="get_category"),
-        Rule(LinkExtractor(
-            restrict_xpaths="//a[@class='product-overzicht-item-fabrikant']"),
-            follow=True, callback="parse_item")
-    )
+    def parse(self, response):
+        num_pages = int(response.xpath(
+            "//*[@id='product-overzicht-nav']/li[9]/span/text()").extract()[0]
+            .partition('t/m ')[-1].rpartition(' (')[0])
+        category_id = response.url.split('=')[1]
+        base_url = ("https://www.afuture.nl/ajax/"
+                    "productlistAJAX.php?categoryID={}&".format(
+                        category_id
+                    ))
+        # loop through all available pages of the category and parse them to
+        # parse_page
+        for page in range(1, num_pages):
+            url = "{}currentIndex={}".format(base_url, page)
+            print url
+            yield scrapy.Request(url, dont_filter=True,
+                                 callback=self.parse_page)
+
+    def parse_page(self, response):
+        # Get the current category based on the category ID in the URL
+        category = allowed_urls[
+            response.url.partition('=')[-1].rpartition('&')[0]
+        ]
+
+        # exctract the product table and parse every product to parse_item
+        for product in response.xpath("//*[@id='producten-overzicht']/tbody"):
+            yield scrapy.Request(
+                "https://www.afuture.nl/{}".format(product.xpath(
+                    "//td/a/@href"
+                ).extract()[0]),
+                dont_filter=True,
+                callback=self.parse_item,
+                meta={'category': category})
 
     def parse_item(self, response):
         # The key is alway the th and value is always the td in the
@@ -43,7 +66,7 @@ class AlternateSpider(CrawlSpider):
         value_xpath = "td/text()"
 
         product = {}
-        product["category"] = html.unescape(self.category)
+        product["category"] = response.meta['category']
         product["price"] = html.unescape("".join(response.xpath(
             "//*[@id='product-detail-prijs-incl']/text()").extract()[0]).split()[1])  # noqa
         product["webshop"] = 'afuture'
@@ -57,7 +80,3 @@ class AlternateSpider(CrawlSpider):
                 product[key] = value
 
         yield product
-
-    def get_category(self, response):
-        self.category = "".join(response.xpath("//*[@id='content']/h1/text()").extract())  # noqa
-        print self.category

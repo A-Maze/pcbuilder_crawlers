@@ -8,7 +8,7 @@ config = Settings()
 
 class Pipeline(object):
     def __init__(self):
-        self.root_url = "localhost"
+        self.root_url = "127.0.0.1"
         self.redis_port = "6379"
         self.api_port = "6543"
         case = []
@@ -53,6 +53,8 @@ class Pipeline(object):
         json_item['items'] = item_list
         response = urllib2.Request(url, json.dumps(json_item))
         response.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(response)
+        print resp
         return {
             "message": "item posted"
         }
@@ -65,6 +67,12 @@ class Pipeline(object):
         return
 
     def close_spider(self, spider):
+        # invalidate cache
+        r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
+        category_keys = r.keys('categor*')  # both category and categories
+        for key in category_keys:
+            r.delete(key)
+
         if spider.name == 'hardwareinfo':
             item_type = 'product'
         else:
@@ -75,9 +83,3 @@ class Pipeline(object):
                                                         self.category_names[i],
                                                         item_type)
             self.post_items(url, self.items[i])
-
-        # invalidate cache after mutation
-        r = redis.StrictRedis(host=self.root_url, port=self.redis_port, db=0)
-        category_keys = r.keys('categor*')  # both category and categories
-        for key in category_keys:
-            r.delete(key)
