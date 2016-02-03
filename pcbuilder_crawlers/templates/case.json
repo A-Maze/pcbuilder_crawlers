@@ -1,0 +1,11 @@
+{
+    "name": ["Productnaam"],
+	"subname": [],
+	"info": [],
+	"image": [],
+	"ean": ["EAN code"],
+	"sku": [],
+	"link": [],
+	"brand": ["Merk"],
+	"form_factor": ["Moederbord formaat"]
+}
