@@ -67,6 +67,7 @@ class AfutureSpider(Spider):
 
         product = {}
         product["category"] = response.meta['category']
+        product["link"] = response.url
         product["price"] = html.unescape("".join(response.xpath(
             "//*[@id='product-detail-prijs-incl']/text()").extract()[0]).split()[1])  # noqa
         product["webshop"] = 'afuture'
