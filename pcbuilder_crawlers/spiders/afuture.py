@@ -27,6 +27,12 @@ class AfutureSpider(Spider):
                   allowed_urls.items())
 
     def parse(self, response):
+        """
+        Retrieves the number of pages for each category and requests every
+        page. Parses the response to the parse_page method
+        """
+
+        # selects the available amount of pages
         num_pages = int(response.xpath(
             "//*[@id='product-overzicht-nav']/li[9]/span/text()").extract()[0]
             .partition('t/m ')[-1].rpartition(' (')[0])
@@ -44,6 +50,12 @@ class AfutureSpider(Spider):
                                  callback=self.parse_page)
 
     def parse_page(self, response):
+        """
+        Retrieves the URL for the detail page of every product on the page
+        sends a GET request to this URL. It then parses the response and
+        the category to the parse_item method
+        """
+
         # Get the current category based on the category ID in the URL
         category = allowed_urls[
             response.url.partition('=')[-1].rpartition('&')[0]
@@ -60,6 +72,10 @@ class AfutureSpider(Spider):
                 meta={'category': category})
 
     def parse_item(self, response):
+        """
+        Scrapes the necesarry info of the product detail page and saves
+        it in a dictionary
+        """
         # The key is alway the th and value is always the td in the
         # information table
         key_xpath = "th/text()"
