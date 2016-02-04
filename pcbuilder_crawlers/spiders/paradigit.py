@@ -27,9 +27,12 @@ class ParadigitSpider(CrawlSpider):
     start_urls = (root_url.format(allowed_url) for allowed_url in allowed_urls)
 
     rules = (
+        # extracts the link to follow for pagination
         Rule(
             LinkExtractor(restrict_xpaths="//a[@class='PagerHyperlinkStyle']"),
             follow=True),
+        # makes a get request to every product detail page and parses the
+        # output to be processed by parse_item
         Rule(
             LinkExtractor(restrict_xpaths="//div[@class="
                           "'itemlistcombined-moreinfocontainer']/a"),
@@ -42,6 +45,9 @@ class ParadigitSpider(CrawlSpider):
         product_number = (
             "//div[@class='itemdetail-specificationstab-"
             "productnumbercontainer']/{}")
+
+        # establishes on which location the key of a product specification is
+        # and on which the value
         key_xpath = "div[@position=1]/span/text()"
         value_xpath = "div[@position=2]/span/text()"
 

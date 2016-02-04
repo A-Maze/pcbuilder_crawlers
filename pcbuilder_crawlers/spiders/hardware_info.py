@@ -53,8 +53,10 @@ class HardwareInfoSpider(CrawlSpider):
                                          "img/@alt")
 
         product = {}
-        product["category"] = html.unescape(''.join(response.xpath("//ul[@class='breadcrumb']\
-            /li[3]/a/text()").extract()))
+        product["category"] = html.unescape(''.join(
+            response.xpath("//ul[@class='breadcrumb']/li[3]/a/text()")
+            .extract()
+        ))
 
         # Get the specifications div
         for sel in response.xpath(
